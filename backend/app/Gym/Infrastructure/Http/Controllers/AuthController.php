@@ -8,11 +8,10 @@ use App\Gym\Application\UseCases\AutenticarUsuarioUseCase;
 use App\Gym\Application\UseCases\CerrarSesion;
 use App\Gym\Application\UseCases\ObtenerUsuarioAutenticado;
 use App\Gym\Infrastructure\Http\Requests\LoginRequest;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-final class AuthController extends Controller
+final class AuthController extends ApiController
 {
     public function login(LoginRequest $peticion, AutenticarUsuarioUseCase $autenticar): JsonResponse
     {
@@ -21,20 +20,18 @@ final class AuthController extends Controller
             $peticion->string('password')->toString(),
         );
 
-        return response()->json(['data' => $sesion->aArreglo()]);
+        return $this->ok($sesion);
     }
 
     public function me(Request $peticion, ObtenerUsuarioAutenticado $obtenerUsuario): JsonResponse
     {
-        $usuario = $obtenerUsuario->ejecutar($peticion->bearerToken());
-
-        return response()->json(['data' => $usuario->aArreglo()]);
+        return $this->ok($obtenerUsuario->ejecutar($peticion->bearerToken()));
     }
 
     public function logout(Request $peticion, CerrarSesion $cerrarSesion): JsonResponse
     {
         $cerrarSesion->ejecutar((string) $peticion->bearerToken());
 
-        return response()->json(['data' => ['ok' => true]]);
+        return $this->ok(['ok' => true]);
     }
 }

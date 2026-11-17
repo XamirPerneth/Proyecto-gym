@@ -4,24 +4,16 @@ declare(strict_types=1);
 
 namespace App\Gym\Infrastructure\Http\Controllers;
 
-use App\Gym\Application\DTOs\SocioResumenDTO;
 use App\Gym\Application\UseCases\ListarSocios;
 use App\Gym\Application\UseCases\RegistrarSocio;
 use App\Gym\Infrastructure\Http\Requests\RegistrarSocioRequest;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
-final class SocioController extends Controller
+final class SocioController extends ApiController
 {
     public function index(ListarSocios $listarSocios): JsonResponse
     {
-        return response()->json([
-            'data' => array_map(
-                static fn (SocioResumenDTO $socio): array => $socio->aArreglo(),
-                $listarSocios->ejecutar(),
-            ),
-        ]);
+        return $this->coleccion($listarSocios->ejecutar());
     }
 
     public function store(RegistrarSocioRequest $peticion, RegistrarSocio $registrarSocio): JsonResponse
@@ -31,6 +23,6 @@ final class SocioController extends Controller
             $peticion->string('nombre')->toString(),
         );
 
-        return response()->json(['data' => $socio->aArreglo()], Response::HTTP_CREATED);
+        return $this->creado($socio);
     }
 }

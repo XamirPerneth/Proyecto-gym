@@ -8,16 +8,13 @@ use App\Gym\Application\DTOs\ActualizarAjustesComando;
 use App\Gym\Application\UseCases\ActualizarAjustes;
 use App\Gym\Application\UseCases\ObtenerAjustes;
 use App\Gym\Infrastructure\Http\Requests\ActualizarAjustesRequest;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
-final class AjustesController extends Controller
+final class AjustesController extends ApiController
 {
     public function show(ObtenerAjustes $obtenerAjustes): JsonResponse
     {
-        return response()->json([
-            'data' => $obtenerAjustes->ejecutar()->aArreglo(),
-        ]);
+        return $this->ok($obtenerAjustes->ejecutar());
     }
 
     public function update(ActualizarAjustesRequest $peticion, ActualizarAjustes $actualizarAjustes): JsonResponse
@@ -30,6 +27,6 @@ final class AjustesController extends Controller
             (array) $peticion->input('planes', []),
         ));
 
-        return response()->json(['data' => $ajustes->aArreglo()]);
+        return $this->ok($ajustes);
     }
 }

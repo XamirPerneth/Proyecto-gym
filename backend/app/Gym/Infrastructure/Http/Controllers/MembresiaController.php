@@ -10,11 +10,9 @@ use App\Gym\Application\UseCases\CongelarMembresia;
 use App\Gym\Application\UseCases\ReactivarMembresia;
 use App\Gym\Infrastructure\Http\Requests\AsignarMembresiaRequest;
 use App\Gym\Infrastructure\Http\Requests\CongelarMembresiaRequest;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
-final class MembresiaController extends Controller
+final class MembresiaController extends ApiController
 {
     public function store(AsignarMembresiaRequest $peticion, AsignarMembresia $asignarMembresia): JsonResponse
     {
@@ -24,7 +22,7 @@ final class MembresiaController extends Controller
             $peticion->string('tipo_tarifa')->toString(),
         ));
 
-        return response()->json(['data' => $membresia->aArreglo()], Response::HTTP_CREATED);
+        return $this->creado($membresia);
     }
 
     public function congelar(
@@ -32,13 +30,11 @@ final class MembresiaController extends Controller
         CongelarMembresiaRequest $peticion,
         CongelarMembresia $congelarMembresia,
     ): JsonResponse {
-        $membresia = $congelarMembresia->ejecutar($id, $peticion->integer('dias'));
-
-        return response()->json(['data' => $membresia->aArreglo()]);
+        return $this->ok($congelarMembresia->ejecutar($id, $peticion->integer('dias')));
     }
 
     public function reactivar(int $id, ReactivarMembresia $reactivarMembresia): JsonResponse
     {
-        return response()->json(['data' => $reactivarMembresia->ejecutar($id)->aArreglo()]);
+        return $this->ok($reactivarMembresia->ejecutar($id));
     }
 }
