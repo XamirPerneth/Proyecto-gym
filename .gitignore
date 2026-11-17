@@ -1,0 +1,14 @@
+composer.phar
+backend/composer.phar
+vendor/
+backend/vendor/
+.env
+backend/.env
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+.DS_Store
+.phpunit.result.cache
+backend/.phpunit.result.cache
+backend/storage/logs/*.log

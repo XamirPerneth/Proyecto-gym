@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F8FAFC;
+    @apply font-sans text-zinc-900 antialiased;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .tarjeta {
+    @apply rounded-2xl border border-[#E2E8F0] bg-white p-6 shadow-sm transition-shadow;
+  }
+  .campo {
+    @apply w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-2.5 text-sm text-zinc-900 outline-none transition placeholder:text-slate-400 focus:border-[#EA580C] focus:ring-2 focus:ring-[#EA580C]/20;
+  }
+  .etiqueta {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500;
+  }
+  .boton {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#EA580C] px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-[#EA580C]/25 transition hover:bg-[#c2410c] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .boton-oscuro {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#18181B] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .boton-suave {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-xl border border-[#E2E8F0] bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 transition hover:border-zinc-300 hover:bg-slate-50 disabled:opacity-50;
+  }
+}
